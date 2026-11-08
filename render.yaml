@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: text-to-speech-api
+    runtime: node
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: ADDIS_API_KEY
+        sync: false
