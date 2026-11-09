@@ -24,15 +24,28 @@ app.post("/api/tts", async (req, res) => {
   }
 
   try {
-    const clip = await addis.voice.generate({
+    const audio = await addis.voice.stream({
       text,
       language: "am",
       voiceId: "am-hamen",
       outputFormat: "mp3_44100",
+      voiceSettings: { speed: 60 },
     });
-    res.json({ audioUrl: clip.audioUrl });
+
+    res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("Cache-Control", "no-store");
+    for await (const chunk of audio) {
+      if (!res.write(chunk)) {
+        await new Promise((resolve) => res.once("drain", resolve));
+      }
+    }
+    res.end();
   } catch (error) {
     console.error("Addis AI request failed:", error);
+    if (res.headersSent) {
+      res.destroy(error);
+      return;
+    }
     res.status(502).json({ error: "Speech generation failed" });
   }
 });
