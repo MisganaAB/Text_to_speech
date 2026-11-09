@@ -36,6 +36,6 @@ form.addEventListener("submit", async (e) => {
   } finally {
     submitBtn.disabled = false;
     submitBtn.textContent = "Listen";
-    input.value = "";
+    // input.value = "";
   }
 });
