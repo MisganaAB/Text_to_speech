@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://$RENDER_BACKEND_URL/api/:path*"
+      "destination": "https://text-to-speech-9twg.onrender.com/api/:path*"
     }
   ],
   "headers": [
